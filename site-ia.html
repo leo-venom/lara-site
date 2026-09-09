@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA: O Futuro Chegou | Nexus Mind</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Canvas Background Fixado */
+        #plexus {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1;
+        }
+
+        /* Container de Conteúdo */
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Navbar Glassmorphism */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(10, 10, 15, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00f2fe, #4facfe, #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00f2fe;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.8);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .badge {
+            padding: 8px 16px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: #00f2fe;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #ffffff 0%, #a1a1a1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 span {
+            background: linear-gradient(90deg, #ff007f, #7928ca, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            max-width: 650px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .btn-futuristic {
+            position: relative;
+            padding: 15px 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.4s ease;
+            text-decoration: none;
+        }
+
+        .btn-futuristic::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #ff007f, #00f2fe);
+            border-radius: 4px;
+            z-index: -1;
+            transition: 0.4s ease;
+        }
+
+        .btn-futuristic:hover::before {
+            filter: blur(10px);
+            opacity: 0.8;
+        }
+
+        .btn-futuristic::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: #000;
+            border-radius: 2px;
+            z-index: -1;
+            transition: 0.3s ease;
+        }
+
+        .btn-futuristic:hover::after {
+            background: transparent;
+        }
+
+        /* Seções de Conteúdo */
+        section {
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Grid de Estatísticas / Dados Fictícios */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 242, 254, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.15);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: #00f2fe;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .card .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #ff007f;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #a0a0a0;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Demo Interativa (Terminal/IA) */
+        .demo-container {
+            background: rgba(5, 5, 10, 0.8);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            font-family: monospace;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .terminal-body {
+            color: #00f2fe;
+            font-size: 1.1rem;
+            min-height: 150px;
+            line-height: 1.6;
+        }
+
+        /* Animações Keyframes */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; }
+            section { padding: 60px 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Fundo em Canvas fornecido -->
+    <canvas id="plexus"></canvas>
+
+    <!-- Conteúdo da Página -->
+    <div class="content-wrapper">
+        
+        <!-- Navegação -->
+        <nav>
+            <div class="logo">NEXUS<span style="color:#ff007f;">AI</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#stats">Métricas</a></li>
+                <li><a href="#demo">Live IA</a></li>
+            </ul>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="badge">CONECTATIVIDADE NEURAL v4.0</div>
+            <h1>A INTELIGÊNCIA ARTIFICIAL<br><span>O FUTURO CHEGOU</span></h1>
+            <p>Processamento quântico, redes neurais autônomas e modelos adaptativos moldando a próxima era da civilização digital.</p>
+            <a href="#demo" class="btn-futuristic">Iniciar Experiência</a>
+        </section>
+
+        <!-- Seção de Dados / Métricas Fictícias -->
+        <section id="stats">
+            <h2 class="section-title">Métricas de Impacto Global</h2>
+            <div class="stats-grid">
+                <div class="card">
+                    <i class="fa-solid fa-microchip"></i>
+                    <div class="stat-number">10.4 TFLOPS</div>
+                    <h3>Poder Quântico</h3>
+                    <p>Velocidade de processamento neural simultâneo distribuído em micro-clusters globais.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-brain"></i>
+                    <div class="stat-number">99.8%</div>
+                    <h3>Acurácia Neural</h3>
+                    <p>Taxa de precisão preditiva em análise de padrões comportamentais e algoritmos complexos.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-bolt"></i>
+                    <div class="stat-number">0.002 ms</div>
+                    <h3>Latência Zero</h3>
+                    <p>Tempo de resposta imediato sincronizado via rede neural de última geração.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Demonstração Interativa -->
+        <section id="demo">
+            <h2 class="section-title">Demonstração em Tempo Real</h2>
+            <div class="demo-container">
+                <div class="terminal-header">
+                    <div class="dot dot-red"></div>
+                    <div class="dot dot-yellow"></div>
+                    <div class="dot dot-green"></div>
+                    <span style="color: #666; margin-left: 10px; font-size: 0.8rem;">nexus-ai-core-terminal ~ bash</span>
+                </div>
+                <div class="terminal-body" id="typewriter"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Script da Animação do Canvas e Interações -->
+    <script>
+        /* ===================================================
+           CÓDIGO ORIGINAL DO CANVAS (PLEXUS RAINBOW)
+        =================================================== */
+        const canvas = document.getElementById("plexus");
+        const ctx = canvas.getContext("2d");
+
+        let width;
+        let height;
+
+        const PARTICLE_COUNT = 100;
+        const CONNECTION_DISTANCE = 140;
+        const MOUSE_DISTANCE = 200;
+
+        let hueOffset = 0;
+
+        const mouse = {
+            x: null,
+            y: null
+        };
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        window.addEventListener("mousemove", function(event) {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+        });
+
+        window.addEventListener("mouseleave", function() {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        function rainbowColor(index, total, alpha = 1) {
+            const hue = ((index / total) * 360 + hueOffset) % 360;
+            return `hsla(${hue}, 100%, 60%, ${alpha})`;
+        }
+
+        class Particle {
+            constructor(index) {
+                this.index = index;
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.7;
+                this.vy = (Math.random() - 0.5) * 0.7;
+                this.size = Math.random() * 1.8 + 0.8;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x <= 0 || this.x >= width) this.vx *= -1;
+                if (this.y <= 0 || this.y >= height) this.vy *= -1;
+
+                if (mouse.x !== null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < MOUSE_DISTANCE) {
+                        const force = (MOUSE_DISTANCE - distance) / MOUSE_DISTANCE;
+                        this.x -= dx * force * 0.025;
+                        this.y -= dy * force * 0.025;
+                    }
+                }
+            }
+
+            draw() {
+                const color = rainbowColor(this.index, PARTICLE_COUNT, 0.95);
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        let particles = [];
+
+        function createParticles() {
+            particles = [];
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push(new Particle(i));
+            }
+        }
+
+        createParticles();
+
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < CONNECTION_DISTANCE) {
+                        const opacity = (1 - distance / CONNECTION_DISTANCE) * 0.35;
+                        const hue = ((i / PARTICLE_COUNT) * 360 + hueOffset) % 360;
+
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `hsla(${hue}, 100%, 60%, ${opacity})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+
+                if (mouse.x !== null) {
+                    const dx = particles[i].x - mouse.x;
+                    const dy = particles[i].y - mouse.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < MOUSE_DISTANCE) {
+                        const opacity = (1 - distance / MOUSE_DISTANCE) * 0.8;
+                        const hue = ((i / PARTICLE_COUNT) * 360 + hueOffset) % 360;
+
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.strokeStyle = `hsla(${hue}, 100%, 65%, ${opacity})`;
+                        ctx.lineWidth = 1.2;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function drawMouseGlow() {
+            if (mouse.x === null) return;
+
+            const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 80);
+            gradient.addColorStop(0, `hsla(${hueOffset}, 100%, 60%, 0.25)`);
+            gradient.addColorStop(1, "rgba(0,0,0,0)");
+
+            ctx.beginPath();
+            ctx.arc(mouse.x, mouse.y, 80, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+
+        function animate() {
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, width, height);
+
+            hueOffset += 0.35;
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+            }
+
+            connectParticles();
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].draw();
+            }
+
+            drawMouseGlow();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        /* ===================================================
+           ANIMAÇÃO DE TEXTO DO TERMINAL (EFEITO TYPING)
+        =================================================== */
+        const textLines = [
+            "> Inicializando núcleo Nexus AI...",
+            "> Carregando modelos de deep learning...",
+            "> Sincronizando nós quânticos globais...",
+            "> [STATUS]: Conexão estabelecida com sucesso.",
+            "> A Inteligência Artificial do futuro está operacional."
+        ];
+
+        let lineIndex = 0;
+        let charIndex = 0;
+        const typewriterEl = document.getElementById("typewriter");
+
+        function typeWriter() {
+            if (lineIndex < textLines.length) {
+                if (charIndex < textLines[lineIndex].length) {
+                    typewriterEl.innerHTML += textLines[lineIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWriter, 40);
+                } else {
+                    typewriterEl.innerHTML += "<br>";
+                    lineIndex++;
+                    charIndex = 0;
+                    setTimeout(typeWriter, 500);
+                }
+            }
+        }
+
+        // Inicia a digitação dinâmica ao carregar
+        window.onload = () => {
+            typeWriter();
+        };
+    </script>
+</body>
+</html>
